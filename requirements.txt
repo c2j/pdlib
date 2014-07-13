@@ -1,0 +1,9 @@
+#sudo apt-get install python-virtualenv
+#virtualenv mysite
+#source mysite/bin/activate
+#pip install django
+#
+BeautifulSoup=3.2.1
+HTMLParser
+django=1.6.5
+mongoengine=0.8.7
