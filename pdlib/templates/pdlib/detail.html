@@ -37,30 +37,23 @@
     </form>
     </div>
 
-
-        <div class="list-group">
-        {% for book in books %}
-            {% if book.url %}
-            <a href="{% url 'detail' %}?url={{ book.encoded_url }}" class="list-group-item">
-                <h4 class="list-group-item-heading">{{ book.title }}</h4>
-                <p class="list-group-item-text">
-                    {% for author in book.authors %}
-                       {{ author }}
-                    {% endfor %}
-                    {{ book.issuer }}
-                </p>
-            </a>
-            {% endif %}
-        {% endfor %}
-        </div>
-      {% if books %}
-        <ul class="pager">
-
-          <li class="previous {% if not prev_url %}disabled{% endif %}"><a href="{{ prev_url }}">Previous</a></li>
-          <li class="next {% if not next_url %}disabled{% endif %}"><a href="{{ next_url }}">Next</a></li>
-        </ul>
+    {% if form_full %}
+      {% autoescape off %}
+        {{ form_full }}
+      {% endautoescape %}
     {% endif %}
 
+     {% if form_details %}
+       {% autoescape off %}
+        {{ form_details }}
+        {% endautoescape %}
+    {% endif %}
+
+     {% if form_navigation %}
+       {% autoescape off %}
+        {{ form_navigation }}
+        {% endautoescape %}
+    {% endif %}
 
 
 </div>

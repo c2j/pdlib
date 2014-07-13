@@ -23,6 +23,32 @@ def retrieve(request):
                        "next_url":"a"}
         )
 
+def detail(request):
+    import urllib2
+    from urllib import unquote, quote
+    import HTMLParser
+    PARSER = HTMLParser.HTMLParser()
+    encoded_url = request.REQUEST["url"] if "url" in request.REQUEST else None
+    if encoded_url == None:
+        return render(request, 'pdlib/index.html')
+    else:
+        print encoded_url
+        bookurl = PARSER.unescape(encoded_url) #unquote(encoded_url)
+        print bookurl
+        content = urllib2.urlopen(bookurl).read()
+        from BeautifulSoup import BeautifulSoup, Tag, NavigableString
+        soup = BeautifulSoup(content)
+        #print soup
+        form_full = str(soup.find("form", {"name":"full"}))
+        form_details = str(soup.find("form", {"name":"details"}))
+        form_navigation = str(soup.find("form", {"name":"navigation"}))
+
+        return render(request, 'pdlib/detail.html',
+                          {"form_full": form_full,
+                           "form_details": form_details,
+                           "form_navigation": form_navigation,
+                           }
+            )
 
 def _query(term):
     import sys
@@ -49,6 +75,8 @@ def _query(term):
             trurl = htmlbook.contents[0]
             tagurl = trurl.find("a")
             book.url = unquote(tagurl["href"]).split("'")[1]
+            book.encoded_url = quote(book.url.encode('utf8'))
+            print book.encoded_url
             book.title = PARSER.unescape(tagurl.text)
             trauthor = htmlbook.contents[1]
             tagauthors = trauthor.findAll("i")

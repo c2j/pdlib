@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
     url(r"^$", TemplateView.as_view(template_name="pdlib/index.html"), name="home"),
     url(r'^retrieve/$', 'horizon_client.views.retrieve', name='retrieve'),
+    url(r'^detail/$', 'horizon_client.views.detail', name='detail'),
 )
 
 
